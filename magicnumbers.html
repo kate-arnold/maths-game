@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Polar Maths Exercise - Magic Numbers</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="description" content="Kate Arnold - Maths Tutor up to GCSE level. Does your child need assistance preparing for Maths exams or understanding Maths homework?">
+		<meta name="keywords" content="Kate,Arnold,Maths,Tutor,GCSE,exam,preparation,homework,help,mathematics,Polar,polarmaths,polar-maths">
+		<meta name="robots" content="index,follow">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato%7CLibre+Baskerville:400i">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+		<style>
+			*{-webkit-box-sizing:border-box;box-sizing:border-box;}
+
+			body,input,select,textarea{font-family:'Lato',sans-serif;font-size:14px;}
+			body{margin:0;padding:0;text-align:center;}
+			body.pretty{background:url(/images/Prismatic-Random-Numbers-Cloud-2-300px.png) no-repeat #000 center 0 / auto 100%;min-height:100vh;}
+
+			.wrapper{background:rgba(255,255,255,.8);position:absolute;left:10%;right:10%;top:10%;padding:5px 10px;-webkit-border-radius:10px;border-radius:10px;}
+
+			h1,h2{font-family:'Libre Baskerville',serif;font-weight:400;font-style:italic;}
+			h1{font-size:48px;}
+			h2{font-size:32px;}
+			.wrapper div{margin:15px 0;}
+			a{color:#ff007f;cursor:pointer;text-decoration:underline;}
+
+			@media (min-width:768px){
+				body.pretty{font-size:18px;background-position:center center;background-size:100%;}
+				.wrapper{left:20%;right:20%;top:50%;transform:translateY(-50%);padding:5px 20px;}
+				h1{font-size:64px;}
+				h2{font-size:48px;}
+			}
+
+			input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+			input[type=number]{-moz-appearance:textfield;}
+
+			.space{margin-bottom:50px;}
+			/********/
+			div,input{font-size:18px;}
+			div{margin:10px 0;}			
+			input[type="number"]{width:50px;text-align:center;}
+			.q.correct,.q.correct input{color:green;}
+			.q.incorrect,.q.incorrect input{color:red;}
+			form{display:none;}
+		</style>
+	</head>
+
+	<body>
+		<h1>Magic Numbers</h1>
+		
+		<div id="start" class="space"><input type="button" value="Start" onclick="start();"></div>
+		
+		<form>		
+			<div class="q">1 + <input type="number" data-answer="9"> = 10</div>
+			<div class="q">2 + <input type="number" data-answer="8"> = 10</div>
+			<div class="q">3 + <input type="number" data-answer="7"> = 10</div>
+			<div class="q">4 + <input type="number" data-answer="6"> = 10</div>
+			<div class="q">5 + <input type="number" data-answer="5"> = 10</div>
+			<div class="q">6 + <input type="number" data-answer="4"> = 10</div>
+			<div class="q">7 + <input type="number" data-answer="3"> = 10</div>
+			<div class="q">8 + <input type="number" data-answer="2"> = 10</div>
+			<div class="q">9 + <input type="number" data-answer="1"> = 10</div>
+			<div><input type="button" value="Done" onclick="done();"></div>
+			<div id="feedback"></div>
+			<div id="time"></div>
+			<div class="space"></div>
+			<div><a onclick="location.reload();">Start again</a></div>
+		</form>	
+	
+		<div class="space"></div>
+		
+		<script>
+			$(document).ready(function(){
+				$('[data-answer]').val('');
+				$('.q').shuffle();
+			});
+			
+			function start() {
+				$('form').show();
+				$('#start').hide();
+				t1 = Date.now();
+			}
+		
+			function done() {	
+				var t2 = Date.now();
+				$('.q').each(function(){
+					var a = $(this).find('[data-answer]');
+					if (a.val() == a.data('answer')) $(this).addClass('correct').removeClass('incorrect');
+					else $(this).addClass('incorrect').removeClass('correct');
+				});
+				var feedback = 'You scored ' + $('.q.correct').length + ' out of ' +$('.q').length;
+				if ($('.q.incorrect').length == 0) feedback = feedback + '<br>Well done!';
+				$('#feedback').html(feedback);
+				$('#time').html('Time: ' + Math.round((t2 - t1)/100)/10 + ' seconds');
+			}			
+			
+			/*
+			* Shuffle jQuery array of elements - see Fisher-Yates algorithm
+			*/
+			jQuery.fn.shuffle = function () {
+				var j;
+				for (var i = 0; i < this.length; i++) {
+					j = Math.floor(Math.random() * this.length);
+					$(this[i]).before($(this[j]));
+				}
+				return this;
+			};
+		</script>	
+	</body>
+</html>
